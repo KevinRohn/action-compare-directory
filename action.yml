@@ -43,7 +43,7 @@ runs:
       id: check_changes
       shell: bash
       run: | # shell
-        CHANGES=$(python3 src/main.py \
+        CHANGES=$(python ${{ github.action_path }}/src/main.py \
             --from-ref "${{ inputs.from_ref }}" \
             --to-ref "${{ inputs.to_ref }}" \
             --source "${{ inputs.source_dir }}" \

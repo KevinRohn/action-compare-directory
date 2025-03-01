@@ -18,7 +18,7 @@ This action analyzes differences between a source directory and a target directo
 ```yaml
 - name: Check Source to Target Difference
   id: check_difference
-  uses: KevinRohn/action-compare-directory@v0.1.0
+  uses: KevinRohn/action-compare-directory@v0.1.1
   with:
     source_dir: "content/en"
     target_dir: "content/de"
@@ -33,7 +33,7 @@ Basic comparison between language directories
 ```yaml
 - name: Compare English and German content
   id: compare_en_de
-  uses: KevinRohn/action-compare-directory@v0.1.0
+  uses: KevinRohn/action-compare-directory@v0.1.1
   with:
     source_dir: "content/en"
     target_dir: "content/de"
