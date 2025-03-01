@@ -1,6 +1,6 @@
 name: "Check source to target difference"
 description: "Check the difference between the source and target directory"
-author: Kevin Rohn
+author: KevinRohn
 
 branding:
   icon: 'folder'
