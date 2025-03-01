@@ -2,6 +2,10 @@ name: "Check source to target difference"
 description: "Check the difference between the source and target directory"
 author: Kevin Rohn
 
+branding:
+  icon: 'folder'
+  color: 'white'
+
 inputs:
   source_dir:
     description: "The source directory to compare"
