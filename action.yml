@@ -1,0 +1,56 @@
+name: "Check source to target difference"
+description: "Check the difference between the source and target directory"
+author: Kevin Rohn
+
+inputs:
+  source_dir:
+    description: "The source directory to compare"
+    required: true
+  target_dir:
+    description: "The target directory to compare"
+    required: true
+  from_ref:
+    description: "The reference to compare from"
+    required: true
+  to_ref:
+    description: "The reference to compare to"
+    required: true
+
+outputs:
+  new_files:
+    description: "The new files with both source and target paths"
+    value: ${{ steps.check_changes.outputs.new_files }}
+  modified_files:
+    description: "The modified files with both source and target paths"
+    value: ${{ steps.check_changes.outputs.modified_files }}
+  deleted_files:
+    description: "The deleted files with both source and target paths"
+    value: ${{ steps.check_changes.outputs.deleted_files }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Check for differences from source to target
+      id: check_changes
+      shell: bash
+      run: | # shell
+        CHANGES=$(python3 translation/main.py \
+            --from-ref "${{ inputs.from_ref }}" \
+            --to-ref "${{ inputs.to_ref }}" \
+            --source "${{ inputs.source_dir }}" \
+            --target "${{ inputs.target_dir }}")
+
+        NEW_FILES=$(echo "$CHANGES" | jq -c '.new' | tr -d '\n')
+        MODIFIED_FILES=$(echo "$CHANGES" | jq -c '.modified' | tr -d '\n')
+        DELETED_FILES=$(echo "$CHANGES" | jq -c '.deleted' | tr -d '\n')
+
+        {
+          echo "new_files=${NEW_FILES}"
+          echo "modified_files=${MODIFIED_FILES}"
+          echo "deleted_files=${DELETED_FILES}"
+        } >> $GITHUB_OUTPUT
